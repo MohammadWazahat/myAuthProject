@@ -6,6 +6,7 @@ const authRoutes = require("./Routers/auth");
 const path = require ("path");
 const cors = require ("cors");
 require('dotenv').config();
+const cookieParser = require('cookie-parser')
 
 //Variable
 const port = 8005;
@@ -23,6 +24,7 @@ app.set("views", path.resolve("./Views"));
 //Middleware for rendering form data
 app.use(express.json());
 app.use(express.urlencoded({extended : false }));
+app.use(cookieParser());
 
 //Auth Routes Middleware
 app.use(authRoutes);

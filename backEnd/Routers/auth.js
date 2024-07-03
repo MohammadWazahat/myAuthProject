@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const myAuthMiddle = require("../Middleware/authMiddleware")
+const {myAuthMiddle, myAuthTest } = require("../Middleware/authMiddleware")
 
 
-const { handleSignUp ,handleGetAllUsers } = require("../Controllers/auth");
+const { handleSignUp ,handleGetAllUsers , handleLogIn } = require("../Controllers/auth");
 
 
 
@@ -11,7 +11,12 @@ const { handleSignUp ,handleGetAllUsers } = require("../Controllers/auth");
 //Roue for sign up
 router.post("/users/signUp", handleSignUp);
 
+//Roue for Log In
+router.post("/users/logIn", handleLogIn);
+
 //Read all request from mongodb  
-router.get("/users/",myAuthMiddle ,handleGetAllUsers);
+// router.get("/users/",myAuthMiddle ,handleGetAllUsers);
+
+router.get("/users/", myAuthTest ,handleGetAllUsers);
 
 module.exports = router;

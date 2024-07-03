@@ -30,6 +30,45 @@ const handleSignUp = async (req, res) => {
   }
 };
 
+const handleLogIn = async (req, res) => {
+  // console.log("hello login");
+  try {
+    const { username, password } = req.body;
+    // console.log(req.body);
+    const result = await Auth.findOne({
+      username: username,
+    });
+    // console.log(result);
+    if (result) {
+      // creating payload
+      const payload = {
+        username: username,
+      };
+      // console.log("payload is ", payload);
+
+      // Generating token
+      const token = generateToken(payload);
+
+      // const user = res.cookie("tk" , token );
+      // console.log(user)
+
+      // return res
+      //   .status(201)
+      //   .json({ msg: "success", result: result, token: token });
+
+      return res
+        .cookie("tk", token)
+        .status(201)
+        .json({ msg: "success", result: result, token: token });
+    }
+
+    return res.status(400).json({ msg: "user not found" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Get or Read all users
 const handleGetAllUsers = async (req, res) => {
   const user = await Auth.find({});
@@ -39,4 +78,5 @@ const handleGetAllUsers = async (req, res) => {
 module.exports = {
   handleSignUp,
   handleGetAllUsers,
+  handleLogIn,
 };
